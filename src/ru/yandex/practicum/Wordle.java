@@ -32,13 +32,6 @@ public class Wordle {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         File log = new File("log.txt");
-        try {
-            if(!log.createNewFile()) {
-                throw new IOException("Файл уже создан");
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
 
         try (Writer logFile = new FileWriter(log,StandardCharsets.UTF_8)){
             //создание загрузчика словаря
