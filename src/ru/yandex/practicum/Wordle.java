@@ -3,7 +3,6 @@ package ru.yandex.practicum;
 import java.io.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
