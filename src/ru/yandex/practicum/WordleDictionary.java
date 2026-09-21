@@ -16,13 +16,13 @@ public class WordleDictionary {
     private List<String> words;
     private final int lengthWord;
 
-    WordleDictionary (int lengthWord) {
+    WordleDictionary(int lengthWord) {
         this.lengthWord = lengthWord;
         words = new ArrayList<>();
     }
 
     //метод добавляет слово в словарь
-    public boolean addWord (String word) {
+    public boolean addWord(String word) {
         //слово должно соответствовать фиксированному размеру игры
         if (word.length() != lengthWord) {
             //если нет, то создаем исключение
@@ -61,6 +61,7 @@ public class WordleDictionary {
         //помимо этого все слова приводим к нижнему регистру
         return result.toString().toLowerCase().trim();
     }
+
     //сравнивает слова и передает строку вида
     //- — им отмечается буква, которой НЕТ в загаданном слове;
     //+ — этим символом отмечается буква, которая ЕСТЬ в загаданном слове и находится на правильной позиции;
