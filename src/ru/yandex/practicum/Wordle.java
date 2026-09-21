@@ -10,11 +10,11 @@ import java.util.Scanner;
 /*
 в главном классе нам нужно:
     создать лог-файл (он должен передаваться во все классы)
-    + создать загрузчик словарей WordleDictionaryLoader
-    + загрузить словарь WordleDictionary с помощью класса WordleDictionaryLoader
-    + затем создать игру WordleGame и передать ей словарь
-    + вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
-    + вывести состояние игры и конечный результат
+    создать загрузчик словарей WordleDictionaryLoader
+    загрузить словарь WordleDictionary с помощью класса WordleDictionaryLoader
+    затем создать игру WordleGame и передать ей словарь
+    вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
+    вывести состояние игры и конечный результат
 
     Дополнительно программа проверяет, что слово соответствует правилам:
     состоит из пяти букв и присутствует в словаре.
@@ -28,7 +28,7 @@ public class Wordle {
     static final int LENGTH_WORD = 5;
     static final String NAME_DICTIONARY_FILE = "words_ru.txt";
 
-    public static <logFile> void main(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         File log = new File("log.txt");
