@@ -127,19 +127,23 @@ public class WordleGame {
         return dictionaryAll.getWord(random.nextInt(dictionaryAll.getWordsCount()));
     }
 
-    public int getSteps() {
+    public int getSteps()
+    {
         return steps;
     }
 
-    public void setSteps(int steps) {
+    public void setSteps(int steps)
+    {
         this.steps = steps;
     }
 
-    public String getAnswer() {
+    public String getAnswer()
+    {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(String answer)
+    {
         this.answer = answer;
     }
 }
