@@ -32,8 +32,13 @@ public class Wordle {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         File log = new File("log.txt");
+        try {
+            log.createNewFile();
+        } catch (Exception e) {
+            System.err.println("Невозможно создать log-файл " + e.getMessage());
+        }
 
-        try (Writer logFile = new FileWriter(log,StandardCharsets.UTF_8)){
+        try (Writer logFile = new FileWriter(log,StandardCharsets.UTF_8)) {
             //создание загрузчика словаря
             WordleDictionaryLoader wordleDictionaryLoader = new WordleDictionaryLoader();
 
@@ -69,7 +74,7 @@ public class Wordle {
                     }
                 } catch (WordNotFoundInDictionary e) {
                     logFile.write(e.getMessage() + "\n");
-                } catch (WordEmptyString e ) {
+                } catch (WordEmptyString e) {
                     logFile.write(e.getMessage() + "\n");
                 } catch (Exception e) {
                     logFile.write(e.getMessage() + "\n");
