@@ -1,5 +1,6 @@
 package ru.yandex.practicum;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 /*
@@ -31,16 +32,19 @@ public class WordleGame {
 
     Random random = new Random();
 
+    private PrintWriter logFile;
+
     //если позиция известна позиция и символ (т.к. позиция в слове одна, а символом много ключ int
     LinkedHashMap<Integer,Character> knowPosition;
     //если позиция неизвестна то количество и символ
     Set<Character> haveLetter;
 
-    WordleGame(String answer, int lengthWord) {
+    WordleGame(String answer, int lengthWord, PrintWriter logFile) {
         this.answer = answer;
         steps = 0;
         dictionary = new WordleDictionary(lengthWord);
         this.lengthWord = lengthWord;
+        this.logFile = logFile;
 
         knowPosition = new LinkedHashMap<>();
         haveLetter = new HashSet<>();
@@ -56,6 +60,8 @@ public class WordleGame {
 
         String result = dictionary.wordsMatch(word,answer);
         getPosition(word,result);
+
+        logFile.println("Игрок сделал ход.");
 
         return result;
     }
@@ -106,8 +112,9 @@ public class WordleGame {
         haveLetter.add(answer.charAt(index));
     }
 
-    public String getHint(WordleDictionary dictionaryAll) {
+    public String getHint(WordleDictionary dictionaryAll){
         ArrayList<String> words = new ArrayList<>();
+        logFile.println("Игрок получил подсказку.");
 
         for (String word : dictionaryAll.getWords()) {
             if (dictionary.getWords().contains(word)) continue;
@@ -124,7 +131,9 @@ public class WordleGame {
             return words.get(random.nextInt(words.size()));
         }
 
-        return dictionaryAll.getWord(random.nextInt(dictionaryAll.getWordsCount()));
+        String hint = dictionaryAll.getWord(random.nextInt(dictionaryAll.getWordsCount()));
+
+        return hint;
     }
 
     public int getSteps() {

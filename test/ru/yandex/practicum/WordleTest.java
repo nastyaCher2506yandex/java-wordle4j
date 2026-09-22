@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,10 +13,12 @@ class WordleTest {
 
     WordleDictionaryLoader wordleDictionaryLoader;
     WordleDictionary wordleDictionary;
+    PrintWriter logFile;
 
     @BeforeEach
     void forTest() {
-        wordleDictionaryLoader = new WordleDictionaryLoader();
+        logFile = new PrintWriter(System.out);
+        wordleDictionaryLoader = new WordleDictionaryLoader(logFile);
         wordleDictionary = wordleDictionaryLoader.addWordFromFile("words_ru.txt",5);
     }
 
@@ -40,7 +44,7 @@ class WordleTest {
 
         String result = "";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5, logFile);
         try {
             result = wordleGame.makeTurn(word,wordleDictionary);
         } catch (Exception e) {
@@ -59,7 +63,7 @@ class WordleTest {
         String result1 = "";
         String result2 = "";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
         try {
             //строка будет равно нулю, т.к. количество неправильно
             result1 = wordleGame.makeTurn(word1,wordleDictionary);
@@ -84,7 +88,7 @@ class WordleTest {
 
         String result = "";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
         try {
             //строка будет равно нулю, т.к. количество неправильно
             result = wordleGame.makeTurn(word,wordleDictionary);
@@ -103,7 +107,7 @@ class WordleTest {
 
         String result = "";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
         try {
             //строка будет равно нулю, т.к. количество неправильно
             result = wordleGame.makeTurn(word,wordleDictionary);
@@ -122,7 +126,7 @@ class WordleTest {
 
         String result = "";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
         try {
             //строка будет равно нулю, т.к. количество неправильно
             result = wordleGame.makeTurn(word,wordleDictionary);
@@ -140,7 +144,7 @@ class WordleTest {
         String answer = "банан";
         String word = "нанка";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
 
         String hints = "";
 
@@ -165,7 +169,7 @@ class WordleTest {
         String answer = "банан";
         String word = "нанка";
 
-        WordleGame wordleGame = new WordleGame(answer,5);
+        WordleGame wordleGame = new WordleGame(answer,5,logFile);
 
         String hints = "базар";
 

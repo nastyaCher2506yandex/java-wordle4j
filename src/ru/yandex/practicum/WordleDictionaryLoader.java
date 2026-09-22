@@ -1,8 +1,6 @@
 package ru.yandex.practicum;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 
@@ -15,17 +13,23 @@ import java.nio.charset.StandardCharsets;
  */
 public class WordleDictionaryLoader {
 
+    private PrintWriter logFile;
+
+    public WordleDictionaryLoader(PrintWriter logFile) {
+        this.logFile = logFile;
+    }
+
     public WordleDictionary  addWordFromFile(String nameFile, int lengthWord) {
         WordleDictionary dictionary = new WordleDictionary(lengthWord);
 
         try (FileReader fileReader = new FileReader(nameFile, StandardCharsets.UTF_8)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-            while (bufferedReader.ready()) {
-                String line = bufferedReader.readLine();
-
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
                 if (line.length() == lengthWord) dictionary.addWord(line);
             }
+            logFile.println("Словарь для игры загружен");
         } catch (IOException e) {
             System.err.println("Не удалось загрузить словарь: " + e.getMessage());
         }

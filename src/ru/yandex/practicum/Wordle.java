@@ -30,16 +30,11 @@ public class Wordle {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        File log = new File("log.txt");
-        try {
-            log.createNewFile();
-        } catch (Exception e) {
-            System.err.println("Невозможно создать log-файл " + e.getMessage());
-        }
 
-        try (Writer logFile = new FileWriter(log,StandardCharsets.UTF_8)) {
+        try (PrintWriter logFile = new PrintWriter(new File("log.txt"),StandardCharsets.UTF_8)) {
             //создание загрузчика словаря
-            WordleDictionaryLoader wordleDictionaryLoader = new WordleDictionaryLoader();
+            WordleDictionaryLoader wordleDictionaryLoader = new WordleDictionaryLoader(logFile);
+
 
             //загрузка словаря с помощью WordleDictionaryLoader
             WordleDictionary wordleDictionary = wordleDictionaryLoader.addWordFromFile(NAME_DICTIONARY_FILE, LENGTH_WORD);
@@ -47,40 +42,44 @@ public class Wordle {
             //компьютер выбирает произвольный индекс слова из всего словаря
             int indexRandom = random.nextInt(wordleDictionary.getWordsCount());
 
-            WordleGame wordleGame = new WordleGame(wordleDictionary.getWord(indexRandom),LENGTH_WORD);
+            WordleGame wordleGame = new WordleGame(wordleDictionary.getWord(indexRandom),LENGTH_WORD,logFile);
+            logFile.println("Игрок начал игру");
 
-            System.out.println(wordleDictionary.getWord(indexRandom));
-
-            while (wordleGame.getSteps() < 6) {
+            while (wordleGame.getSteps() < MAX_SHOT) {
                 try {
                     System.out.println("Введите слово:");
                     String word = scanner.nextLine();
 
                     if (word.isBlank()) {
-                        System.out.println("Подсказка");
-                        word = wordleGame.getHint(wordleDictionary);
+                        String hint = wordleGame.getHint(wordleDictionary);
+                        System.out.println("Подсказка: " + hint);
+                        logFile.println("Слово подсказка - " + hint);
+                        continue;
                     }
 
                     String turn = wordleGame.makeTurn(wordleDictionary.normalizeText(word), wordleDictionary);
                     System.out.println(turn);
-                    System.out.println(word);
 
                     if (turn.equals("+++++")) {
                         System.out.println("Вы выиграли!");
+                        logFile.println("Игра завершилась. Игрок выиграл.");
                         break;
-                    } else if (wordleGame.getSteps() == 6) {
+                    } else if (wordleGame.getSteps() == MAX_SHOT) {
                         System.out.println("Вы проиграли! Загаданное слово было " + wordleGame.getAnswer());
+                        logFile.println("Игра завершилась. Игрок проиграл.");
+                    } else {
+                        logFile.println("Игрок не отгадал слово. Ввел слово " + word);
                     }
                 } catch (WordNotFoundInDictionary e) {
-                    logFile.write(e.getMessage() + "\n");
+                    logFile.println(e.getMessage());
                 } catch (WordEmptyString e) {
-                    logFile.write(e.getMessage() + "\n");
+                    logFile.println(e.getMessage());
                 } catch (Exception e) {
-                    logFile.write(e.getMessage() + "\n");
+                    logFile.println(e.getMessage());
                 }
             }
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Невозможно создать log-файл " + e.getMessage());
         }
     }
 }
