@@ -112,7 +112,7 @@ public class WordleGame {
         haveLetter.add(answer.charAt(index));
     }
 
-    public String getHint(WordleDictionary dictionaryAll){
+    public String getHint(WordleDictionary dictionaryAll) {
         ArrayList<String> words = new ArrayList<>();
         logFile.println("Игрок получил подсказку.");
 
